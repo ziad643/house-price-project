@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .env
 *.log
+*.tsbuildinfo
 node_modules/
 dist/
 notebooks/data/*.csv

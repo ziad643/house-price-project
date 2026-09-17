@@ -48,7 +48,7 @@ After real training, paste the printed test metrics here:
 
 | Selected model | Test MAE | Test RMSE | Test R2 |
 | --- | ---: | ---: | ---: |
-| Random Forest | 1,061,248.01 | 3,997,193.53 | 0.9207 |
+| Random Forest | 1,035,777.88 | 3,833,117.75 | 0.9270 |
 
 ## Run the API
 

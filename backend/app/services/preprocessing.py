@@ -11,10 +11,10 @@ def request_to_frame(request: PredictionRequest, allowed_locations: set[str]) ->
         "floor_num": request.floor_num,
         "bathroom": request.bathroom,
         "balcony": request.balcony,
+        "car_parking": request.car_parking,
         "location_grouped": location,
         "Furnishing": request.furnishing,
         "Transaction": request.transaction,
         "Ownership": request.ownership,
         "facing": request.facing,
     }])
-

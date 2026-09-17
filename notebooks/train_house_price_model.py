@@ -24,7 +24,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "notebooks" / "data" / "house_prices.csv"
 MODEL_DIR = ROOT / "backend" / "models"
-NUMERIC = ["carpet_area_sqft", "floor_num", "bathroom", "balcony"]
+NUMERIC = ["carpet_area_sqft", "floor_num", "bathroom", "balcony", "car_parking"]
 CATEGORICAL = ["location_grouped", "Furnishing", "Transaction", "Ownership", "facing"]
 
 
@@ -51,12 +51,24 @@ def parse_number(value):
     return float(match.group()) if match else np.nan
 
 
+def parse_floor(value):
+    """Map named ground levels before extracting floors like '3 out of 10'."""
+    text = str(value).strip().lower()
+    if text in {"", "nan", "none"}:
+        return np.nan
+    if "basement" in text:
+        return -1.0
+    if "ground" in text:
+        return 0.0
+    return parse_number(value)
+
+
 def clean(raw: pd.DataFrame) -> pd.DataFrame:
     df = raw.copy()
     df["price_clean"] = df["Amount(in rupees)"].map(parse_price)
     df["carpet_area_sqft"] = df.get("Carpet Area", pd.Series(index=df.index)).map(parse_area)
-    df["floor_num"] = df.get("Floor", pd.Series(index=df.index)).map(parse_number)
-    for column, target in [("Bathroom", "bathroom"), ("Balcony", "balcony")]:
+    df["floor_num"] = df.get("Floor", pd.Series(index=df.index)).map(parse_floor)
+    for column, target in [("Bathroom", "bathroom"), ("Balcony", "balcony"), ("Car Parking", "car_parking")]:
         df[target] = df.get(column, pd.Series(index=df.index)).map(parse_number)
     df = df.dropna(subset=["price_clean", "carpet_area_sqft"])
     df["location_grouped"] = df["location"].fillna("other")
