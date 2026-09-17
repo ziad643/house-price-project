@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+*.log
+node_modules/
+dist/
+notebooks/data/*.csv
+notebooks/data/*.zip
+backend/models/*.pkl
